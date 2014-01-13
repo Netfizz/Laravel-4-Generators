@@ -137,7 +137,8 @@ class ResourceGeneratorCommand extends Command {
             'generate:model',
             array(
                 'name' => $this->model,
-                '--template' => $this->getModelTemplatePath()
+                '--template' => $this->getModelTemplatePath(),
+                '--bench' => $this->option('bench')
             )
         );
     }
@@ -155,7 +156,8 @@ class ResourceGeneratorCommand extends Command {
             'generate:controller',
             array(
                 'name' => "{$name}Controller",
-                '--template' => $this->getControllerTemplatePath()
+                '--template' => $this->getControllerTemplatePath(),
+                '--bench' => $this->option('bench')
             )
         );
     }
@@ -177,7 +179,8 @@ class ResourceGeneratorCommand extends Command {
             array(
                 'name' => Pluralizer::plural(strtolower($this->model)) . 'Test',
                 '--template' => $this->getTestTemplatePath(),
-                '--path' => app_path() . '/tests/controllers'
+                '--path' => app_path() . '/tests/controllers',
+                '--bench' => $this->option('bench')
             )
         );
     }
@@ -190,6 +193,17 @@ class ResourceGeneratorCommand extends Command {
     protected function generateViews()
     {
         $viewsDir = app_path().'/views';
+
+        $bench = $this->input->getOption('bench');
+
+        // Finally we will check for the workbench option, which is a shortcut into
+        // specifying the full path for a "workbench" project. Workbenches allow
+        // developers to develop packages along side a "standard" app install.
+        if ( ! is_null($bench))
+        {
+            $viewsDir = $this->laravel['path.base'] . "/workbench/{$bench}/src/views";
+        }
+
         $container = $viewsDir . '/' . Pluralizer::plural($this->model);
         $layouts = $viewsDir . '/layouts';
         $views = array('index', 'show', 'create', 'edit');
@@ -246,7 +260,8 @@ class ResourceGeneratorCommand extends Command {
             'generate:migration',
             array(
                 'name'      => $name,
-                '--fields'  => $this->option('fields')
+                '--fields'  => $this->option('fields'),
+                '--bench' => $this->option('bench')
             )
         );
     }
@@ -256,7 +271,8 @@ class ResourceGeneratorCommand extends Command {
         $this->call(
             'generate:seed',
             array(
-                'name' => Pluralizer::plural(strtolower($this->model))
+                'name' => Pluralizer::plural(strtolower($this->model)),
+                '--bench' => $this->option('bench')
             )
         );
     }

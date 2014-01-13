@@ -46,8 +46,21 @@ class ModelGeneratorCommand extends BaseGeneratorCommand {
 	 * @return string
 	 */
 	protected function getPath()
-    	{
-		return $this->option('path') . '/' . ucwords($this->argument('name')) . '.php';
+    {
+        $path = $this->option('path');
+
+        $bench = $this->input->getOption('bench');
+
+        // Finally we will check for the workbench option, which is a shortcut into
+        // specifying the full path for a "workbench" project. Workbenches allow
+        // developers to develop packages along side a "standard" app install.
+        if ( ! is_null($bench))
+        {
+            $path = $this->laravel['path.base'] . "/workbench/{$bench}/src/models";
+        }
+
+
+        return $path . '/' . ucwords($this->argument('name')) . '.php';
 	}
 
 	/**
@@ -70,7 +83,7 @@ class ModelGeneratorCommand extends BaseGeneratorCommand {
 	protected function getOptions()
 	{
 		return array(
-            array('path', null, InputOption::VALUE_OPTIONAL, 'Path to the models directory.', app_path() . '/models'),
+			array('path', null, InputOption::VALUE_OPTIONAL, 'Path to the models directory.', app_path() . '/models'),
             array('bench', null, InputOption::VALUE_OPTIONAL, 'The name of the workbench to migrate.', null),
 			array('template', null, InputOption::VALUE_OPTIONAL, 'Path to template.', __DIR__.'/../Generators/templates/model.txt')
 		);

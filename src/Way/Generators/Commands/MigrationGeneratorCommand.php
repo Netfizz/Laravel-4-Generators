@@ -67,7 +67,20 @@ class MigrationGeneratorCommand extends BaseGeneratorCommand
      */
     protected function getPath()
     {
-       return $this->option('path') . '/' . ucwords($this->argument('name')) . '.php';
+        $path = $this->option('path');
+
+        $bench = $this->input->getOption('bench');
+
+        // Finally we will check for the workbench option, which is a shortcut into
+        // specifying the full path for a "workbench" project. Workbenches allow
+        // developers to develop packages along side a "standard" app install.
+        if ( ! is_null($bench))
+        {
+            $path = $this->laravel['path.base'] . "/workbench/{$bench}/src/migrations";
+        }
+
+
+        return $path . '/' . ucwords($this->argument('name')) . '.php';
     }
 
     /**
