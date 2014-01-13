@@ -71,6 +71,7 @@ class ControllerGeneratorCommand extends BaseGeneratorCommand {
     {
         return array(
            array('path', null, InputOption::VALUE_OPTIONAL, 'Path to controllers directory.', app_path() . '/controllers'),
+           array('bench', null, InputOption::VALUE_OPTIONAL, 'The name of the workbench to migrate.', null),
            array('template', null, InputOption::VALUE_OPTIONAL, 'Path to template.', __DIR__.'/../Generators/templates/controller.txt'),
         );
     }

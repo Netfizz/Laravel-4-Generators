@@ -91,6 +91,7 @@ class MigrationGeneratorCommand extends BaseGeneratorCommand
     {
         return array(
             array('path', null, InputOption::VALUE_OPTIONAL, 'The path to the migrations folder', app_path() . '/database/migrations'),
+            array('bench', null, InputOption::VALUE_OPTIONAL, 'The name of the workbench to migrate.', null),
             array('fields', null, InputOption::VALUE_OPTIONAL, 'Table fields', null)
         );
     }

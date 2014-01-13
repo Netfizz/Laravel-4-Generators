@@ -70,7 +70,8 @@ class ModelGeneratorCommand extends BaseGeneratorCommand {
 	protected function getOptions()
 	{
 		return array(
-			array('path', null, InputOption::VALUE_OPTIONAL, 'Path to the models directory.', app_path() . '/models'),
+            array('path', null, InputOption::VALUE_OPTIONAL, 'Path to the models directory.', app_path() . '/models'),
+            array('bench', null, InputOption::VALUE_OPTIONAL, 'The name of the workbench to migrate.', null),
 			array('template', null, InputOption::VALUE_OPTIONAL, 'Path to template.', __DIR__.'/../Generators/templates/model.txt')
 		);
 	}
